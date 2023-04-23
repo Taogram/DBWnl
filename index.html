@@ -5022,7 +5022,7 @@
             getLunar();
         }
 
-        let wnl = "";
+        let wnl = "[";
 
         function run200() {
 
@@ -5096,6 +5096,17 @@
                     tmpstr += '"jqs": "' + (lun.lun[k].jqsj ? lun.lun[k].y + '-' + lun.lun[k].m + '-' + lun.lun[k].d + ' ' + lun.lun[k].jqsj : '') + '"},';
                 }
                 wnl = wnl+tmpstr;
+                j += 1;
+                if (j === 13) {
+                    j = 1;
+                    i += 1;
+                }
+
+                if (i === 2100) {
+                    console.log('done!');
+                } else {
+                    gonext(i, j)
+                }
 
                 // $.ajax({
                 //     url: '/save.php',
@@ -5120,6 +5131,8 @@
             }
 
             gonext();
+            wnl = wnl.slice(0,-1)+"]";
+
             output(wnl,"wnl");
 
         }
@@ -5240,6 +5253,7 @@
             //     }
             // });
             Cal7.innerHTML = s;
+            s = '{"jq":['+s.slice(0,-1)+']}';
             output(s,"jq");
         }
 
