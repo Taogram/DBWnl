@@ -5022,6 +5022,7 @@
             getLunar();
         }
 
+        let wnl = "";
 
         function run200() {
 
@@ -5094,30 +5095,32 @@
                     tmpstr += '"jqm": "' + lun.lun[k].jqmc + '",';
                     tmpstr += '"jqs": "' + (lun.lun[k].jqsj ? lun.lun[k].y + '-' + lun.lun[k].m + '-' + lun.lun[k].d + ' ' + lun.lun[k].jqsj : '') + '"},';
                 }
+                wnl = wnl+tmpstr;
 
-                $.ajax({
-                    url: '/save.php',
-                    method: 'POST',
-                    data: {
-                        month: tmpstr
-                    },
-                    success: function (result) {
-                        j += 1;
-                        if (j === 13) {
-                            j = 1;
-                            i += 1;
-                        }
+                // $.ajax({
+                //     url: '/save.php',
+                //     method: 'POST',
+                //     data: {
+                //         month: tmpstr
+                //     },
+                //     success: function (result) {
+                //         j += 1;
+                //         if (j === 13) {
+                //             j = 1;
+                //             i += 1;
+                //         }
 
-                        if (i === 2100) {
-                            console.log('done!');
-                        } else {
-                            gonext(i, j)
-                        }
-                    }
-                });
+                //         if (i === 2100) {
+                //             console.log('done!');
+                //         } else {
+                //             gonext(i, j)
+                //         }
+                //     }
+                // });
             }
 
             gonext();
+            output(wnl,"wnl");
 
         }
 
@@ -5227,16 +5230,17 @@
                 // s += Ayear2year(y + i) + '年<br>' + nianLiHTMLFix(y + i, '');
                 s += nianLiHTMLFix(y + i, '');
             }
-            $.ajax({
-                url: '/save.php',
-                method: 'POST',
-                data: {
-                    jq: s
-                },
-                success: function (result) {
-                }
-            });
+            // $.ajax({
+            //     url: '/save.php',
+            //     method: 'POST',
+            //     data: {
+            //         jq: s
+            //     },
+            //     success: function (result) {
+            //     }
+            // });
             Cal7.innerHTML = s;
+            output(s,"jq");
         }
 
         function baoliujie(x){
@@ -5283,6 +5287,16 @@
         }
 
         tick(); //触发时钟
+
+        function output(str,name) {
+            const blob = new Blob([str],{type:"text/plain;charset=utf-8"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${name}.json`
+            a.click();
+            URL.revokeObjectURL(url);
+        }
     </script>
 </center>
 </body>
